@@ -6,12 +6,18 @@ import numpy as np
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-def train_model(data_reader, model, batch_size, num_epochs):
+def train_continue_model(data_reader, model, batch_size, num_epochs, continue_from=None, start_epoch=0):
     model = model.to(device)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=1e-5)
 
-    for epoch in range(num_epochs):
+    if continue_from:
+        # Load model state
+        model_state = torch.load(continue_from)
+        # Apply model state
+        model.load_state_dict(model_state)
+
+    for epoch in range(start_epoch, start_epoch + num_epochs):
         data_reader.offset = 0
         X, y = data_reader.get_batch(batch_size)
         if (epoch + 1) % 100 == 0:
@@ -28,11 +34,10 @@ def train_model(data_reader, model, batch_size, num_epochs):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            # 每训练到一定阶段保存一下
 
             print(f'Epoch {epoch + 1}/{num_epochs}, Loss: {loss.item()}')
 
             X, y = data_reader.get_batch(batch_size)
 
-        #  the model checkpoint
+        # Save the model checkpoint
         print(f'checkpoint {epoch + 1}')
