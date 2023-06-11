@@ -49,7 +49,7 @@ class SqlDetail:
                     ELSE 0
                 END as target
             FROM history_trend_num_final
-            WHERE percentage_change1 > 0 and rq_week1 =23  
+            WHERE percentage_change1 > 0 
     '''
     SQLT2 = ''' SELECT 
     rq_week19,rq_day19,closing_price19,percentage_change19,net_capital_flow_super_trades_day19,net_proportion_super_trades_day19,net_capital_flow_large_trades_day19,net_proportion_large_trades_day19,net_capital_flow_medium_trades_day19,

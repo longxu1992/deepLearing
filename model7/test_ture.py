@@ -34,8 +34,8 @@ def test_model(data_reader, model, batch_size):
 
 
 def main():
-    data_base = DataModelEnum.M7T1
-    model_base = DataModelEnum.M7D1
+    data_base = DataModelEnum.M7T3
+    model_base = DataModelEnum.M7D3
     input_size = data_base.input_size
     hidden_size = 1024
     num_classes = 1

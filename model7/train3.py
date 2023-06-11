@@ -1,3 +1,5 @@
+import os
+
 from datareader.DataModelEnum import DataModelEnum
 from datareader.data_reader import DataReader
 from model7 import MLP
@@ -9,10 +11,11 @@ def main():
     input_size = data_base.input_size
     hidden_size = 1024
     num_classes = 1
-    batch_size = 1024  # You can adjust this number according to your requirement
+    batch_size = 10000  # You can adjust this number according to your requirement
     num_epochs = 10000  # You can adjust this number according to your requirement
 
     data_reader = DataReader(data_base)
+    os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
     model = MLP(input_size, hidden_size, num_classes)
 
     train_model(data_reader, model, batch_size, num_epochs)
